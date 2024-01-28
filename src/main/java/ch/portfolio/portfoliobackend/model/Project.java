@@ -17,4 +17,24 @@ public class Project {
         this.timeRange = timeRange;
         this.rating = rating;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getProjectProvider() {
+        return projectProvider;
+    }
+
+    public String getTimeRange() {
+        return timeRange;
+    }
+
+    public int getRating() {
+        return rating;
+    }
 }

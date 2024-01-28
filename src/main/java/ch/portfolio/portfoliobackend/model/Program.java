@@ -11,4 +11,12 @@ public class Program {
         this.title = title;
         this.rating = rating;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getRating() {
+        return rating;
+    }
 }
