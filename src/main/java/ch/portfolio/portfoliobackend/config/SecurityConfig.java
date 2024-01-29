@@ -20,6 +20,9 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/post_language").authenticated()
+                        .requestMatchers("/post_program").authenticated()
+                        .requestMatchers("/post_programming_language").authenticated()
+                        .requestMatchers("/post_project").authenticated()
                         .anyRequest().permitAll()
                 )
                 .httpBasic(withDefaults());
