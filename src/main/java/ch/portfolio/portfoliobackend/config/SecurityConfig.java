@@ -15,7 +15,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.
-                authorizeHttpRequests(authorize -> authorize
+                // Disable CSRF protection
+                csrf(withDefaults())
+                .cors(withDefaults())
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/post_language").authenticated()
                         .anyRequest().permitAll()
                 )

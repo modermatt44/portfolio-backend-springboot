@@ -8,9 +8,9 @@ public class Project {
     private String description;
     private String projectProvider;
     private String timeRange;
-    private int rating;
+    private double rating;
 
-    public Project(String title, String description, String projectProvider, String timeRange, int rating) {
+    public Project(String title, String description, String projectProvider, String timeRange, double rating) {
         this.title = title;
         this.description = description;
         this.projectProvider = projectProvider;
@@ -34,7 +34,7 @@ public class Project {
         return timeRange;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 }
