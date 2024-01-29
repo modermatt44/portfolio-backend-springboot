@@ -1,1 +1,1 @@
-web: java -Dserver.port=47252 $JAVA_OPTS -jar build/libs/portfolio-backend-0.0.1-SNAPSHOT.jar
+web: java -jar build/libs/portfolio-backend-0.0.1-SNAPSHOT.jar
