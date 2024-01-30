@@ -37,4 +37,24 @@ public class Project {
     public double getRating() {
         return rating;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProjectProvider(String projectProvider) {
+        this.projectProvider = projectProvider;
+    }
+
+    public void setTimeRange(String timeRange) {
+        this.timeRange = timeRange;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 }

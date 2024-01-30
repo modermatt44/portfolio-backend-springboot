@@ -19,4 +19,12 @@ public class Program {
     public int getRating() {
         return rating;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 }
