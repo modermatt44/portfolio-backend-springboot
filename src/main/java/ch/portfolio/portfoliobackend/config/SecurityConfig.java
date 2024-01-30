@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/post_project").authenticated()
                         .anyRequest().permitAll()
                 )
+                .formLogin(withDefaults())
                 .httpBasic(withDefaults());
         return http.build();
     }
