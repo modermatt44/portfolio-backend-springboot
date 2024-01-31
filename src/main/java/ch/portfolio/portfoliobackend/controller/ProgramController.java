@@ -3,10 +3,7 @@ package ch.portfolio.portfoliobackend.controller;
 import ch.portfolio.portfoliobackend.model.Program;
 import ch.portfolio.portfoliobackend.repository.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,16 @@ public class ProgramController {
         // Create a new program object and save it to the database
         programRepository.save(program);
         return program;
+    }
+
+    @DeleteMapping("/delete_program")
+    public String deleteProgram(@RequestBody Program program) {
+        // Delete a program object from the database
+        if (programRepository.findById(program.getId()).isPresent()) {
+            programRepository.deleteById(program.getId());
+            return "Program deleted";
+        } else {
+            return "Program not found";
+        }
     }
 }

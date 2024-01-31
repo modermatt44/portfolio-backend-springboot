@@ -3,10 +3,7 @@ package ch.portfolio.portfoliobackend.controller;
 import ch.portfolio.portfoliobackend.model.Project;
 import ch.portfolio.portfoliobackend.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,16 @@ public class ProjectController {
         // Create a new project object and save it to the database
         projectRepository.save(project);
         return project;
+    }
+
+    @DeleteMapping("/delete_project")
+    public String deleteProject(@RequestBody Project project) {
+        // Delete a project object from the database
+        if (projectRepository.findById(project.getId()).isPresent()) {
+            projectRepository.deleteById(project.getId());
+            return "Project deleted";
+        } else {
+            return "Project not found";
+        }
     }
 }

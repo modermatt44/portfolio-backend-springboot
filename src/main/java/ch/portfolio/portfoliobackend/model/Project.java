@@ -1,9 +1,13 @@
 package ch.portfolio.portfoliobackend.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("projects")
 public class Project {
+
+    @Id
+    private String id;
     private String title;
     private String description;
     private String projectProvider;
@@ -16,6 +20,10 @@ public class Project {
         this.projectProvider = projectProvider;
         this.timeRange = timeRange;
         this.rating = rating;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {

@@ -3,10 +3,7 @@ package ch.portfolio.portfoliobackend.controller;
 import ch.portfolio.portfoliobackend.model.ProgrammingLanguage;
 import ch.portfolio.portfoliobackend.repository.ProgrammingLanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,16 @@ public class ProgrammingLanguageController {
         // Create a new programming language object and save it to the database
         programmingLanguageRepository.save(programmingLanguage);
         return programmingLanguage;
+    }
+
+    @DeleteMapping("/delete_programming_language")
+    public String deleteProgrammingLanguage(@RequestBody ProgrammingLanguage programmingLanguage) {
+        // Delete a programming language object from the database
+        if (programmingLanguageRepository.findById(programmingLanguage.getId()).isPresent()) {
+            programmingLanguageRepository.deleteById(programmingLanguage.getId());
+            return "Programming language deleted";
+        } else {
+            return "Programming language not found";
+        }
     }
 }
