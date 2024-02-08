@@ -14,6 +14,10 @@ import static ch.portfolio.portfoliobackend.config.SecurityConstants.*;
 
 @Component
 public class JWTGenerator {
+
+    @Value("${jwt.secret}")
+    private String secret;
+
     public String generateToken(Authentication authentication){
 
         String username = authentication.getName();
@@ -24,7 +28,7 @@ public class JWTGenerator {
                 .setSubject(username)
                 .setIssuedAt(current)
                 .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
 
         return token;
@@ -33,7 +37,7 @@ public class JWTGenerator {
     public String getUsernameFromJWT(String token) {
 
         Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
+                .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -41,7 +45,7 @@ public class JWTGenerator {
     }
 
     public boolean validateToken(String token) {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
     }
 }
