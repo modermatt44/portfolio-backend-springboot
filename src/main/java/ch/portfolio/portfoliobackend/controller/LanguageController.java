@@ -28,14 +28,10 @@ public class LanguageController {
     }
 
     @DeleteMapping("/delete_language")
-    public String deleteLanguage(@RequestBody Language language) {
-        // Delete a language object from the database
-        if (languageRepository.findById(language.getId()).isPresent()) {
-            languageRepository.deleteById(language.getId());
-            return "Language deleted";
-        } else {
-            return "Language not found";
-        }
+    public Language deleteLanguage(@RequestBody String title) {
+        // Delete a language object from the database by title
+        languageRepository.deleteByTitle(title);
+        System.out.println(languageRepository.findByTitle(title));
+        return languageRepository.findByTitle(title);
     }
-
 }

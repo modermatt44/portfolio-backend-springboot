@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+
+<script>
+    function addLanguage() {
+        let title = document.getElementsByName("title")[0].value;
+        let rating = document.getElementsByName("rating")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        // Send a POST request to the server using XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/post_language", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Authorization', 'Basic ' + btoa('marco:password'));
+        xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+        xhr.send(JSON.stringify({
+            "title": title,
+            "rating": rating
+        }));
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Language added successfully!");
+                    document.getElementsByName("title")[0].value = "";
+                    document.getElementsByName("rating")[0].value = "";
+                    location.reload();
+                } else {
+                    alert("Error: " + xhr.status + " " + xhr.responseText);
+                }
+            }
+        }
+
+    }
+
+    function deleteLanguage() {
+        let title = document.getElementsByName("deleteLanguageTitle")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+
+
+        // Send a DELETE request to the server using XMLHttpRequest with the language as a body
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", "/delete_language", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Authorization', 'Basic ' + btoa('marco:password'));
+        xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+        xhr.send(JSON.stringify({
+            "title": title
+        }));
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Language deleted successfully!");
+                    document.getElementsByName("deleteLanguageTitle")[0].value = "";
+                    location.reload();
+                } else {
+                    alert("Error: " + xhr.status);
+                }
+            }
+        }
+    }
+</script>
+
+<body>
+    <h1>Hello Admin!</h1>
+
+    <input type="text" name="csrf" placeholder="CSRF-Token">
+
+    <h2>Add a new language</h2>
+    <input type="text" name="title" placeholder="Title">
+    <input type="number" name="rating" placeholder="Rating">
+    <button onclick="addLanguage()">Add</button>
+
+    <!-- Add a delete form using thymeleaf -->
+    <h2>Delete a language</h2>
+
+<!--    <form action="#" th:action="@{/delete_language_ui}" method="delete">-->
+<!--        <input type="text" th:field="*{language}" placeholder="Title">-->
+<!--        <button type="submit">Delete</button>-->
+<!--    </form>-->
+
+    <input type="text" name="deleteLanguageTitle" placeholder="Title">
+    <button onclick="deleteLanguage()">Delete</button>
+
+<!--    <h2>Language list</h2>-->
+<!--    <ul>-->
+<!--        <li th:each="language : ${languages}">-->
+<!--            <span th:text="${language.title}"></span>-->
+<!--            <span th:text="${language.rating}"></span>-->
+<!--        </li>-->
+<!--    </ul>-->
+
+</body>
+
+<style>
+
+    *{
+        font-family: Arial, sans-serif;
+    }
+
+    input {
+        margin: 5px;
+    }
+    button {
+        margin: 5px;
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    ul {
+        list-style-type: none;
+    }
+    li {
+        margin: 5px;
+    }
+
+    /*Add some colors*/
+    body {
+        background-color: #f0f0f0;
+    }
+
+    h1 {
+        color: #4CAF50;
+    }
+
+    h2 {
+        color: #4CAF50;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    input[type=text], input[type=number] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=text]:focus, input[type=number]:focus {
+        background-color: #f0f0f0;
+    }
+
+    ul {
+        padding: 0;
+    }
+
+    li {
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    li {
+        background-color: #f2f2f2;
+    }
+
+    li:hover {
+        background-color: #ddd;
+    }
+
+    span {
+        margin: 5px;
+    }
+
+</style>
+
+</html>

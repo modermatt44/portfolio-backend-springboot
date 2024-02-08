@@ -13,4 +13,7 @@ public interface LanguageRepository extends MongoRepository<Language, String> {
     Language findByRating(int rating);
 
     public long count();
+
+    @Query(value = "{ 'title' : ?0 }", delete = true)
+    public Language deleteByTitle(String title);
 }
