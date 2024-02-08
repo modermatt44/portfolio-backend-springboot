@@ -14,10 +14,6 @@ import static ch.portfolio.portfoliobackend.config.SecurityConstants.*;
 
 @Component
 public class JWTGenerator {
-
-    @Value("${jwt.secret}")
-    public String secret;
-
     public String generateToken(Authentication authentication){
 
         String username = authentication.getName();
