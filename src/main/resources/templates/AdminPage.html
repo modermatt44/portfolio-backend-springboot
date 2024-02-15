@@ -70,7 +70,6 @@
         var xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_language", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Authorization', 'Basic ' + btoa('marco:password'));
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
         xhr.send(title);
 
