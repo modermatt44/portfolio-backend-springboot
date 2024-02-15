@@ -27,13 +27,8 @@ public class ProgrammingLanguageController {
     }
 
     @DeleteMapping("/delete_programming_language")
-    public String deleteProgrammingLanguage(@RequestBody ProgrammingLanguage programmingLanguage) {
+    public void deleteProgrammingLanguage(@RequestBody String title) {
         // Delete a programming language object from the database
-        if (programmingLanguageRepository.findById(programmingLanguage.getId()).isPresent()) {
-            programmingLanguageRepository.deleteById(programmingLanguage.getId());
-            return "Programming language deleted";
-        } else {
-            return "Programming language not found";
-        }
+        programmingLanguageRepository.deleteByTitle(title);
     }
 }

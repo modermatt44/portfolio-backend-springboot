@@ -2,6 +2,8 @@ package ch.portfolio.portfoliobackend.controller;
 
 import ch.portfolio.portfoliobackend.model.Language;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,9 +18,9 @@ public class AdminController {
     public LanguageRepository languageRepository;
 
     @GetMapping("/admin")
-    public String showAdmin(Model model, String title){
+    public String showAdmin(Model model, String title, @AuthenticationPrincipal OAuth2User user){
 
-        //model.addAttribute("language", title);
+        model.addAttribute("username", "Hello " + user.getAttribute("name"));
 
         return "AdminPage";
     }

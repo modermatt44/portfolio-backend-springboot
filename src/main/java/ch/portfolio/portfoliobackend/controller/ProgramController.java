@@ -2,6 +2,8 @@ package ch.portfolio.portfoliobackend.controller;
 
 import ch.portfolio.portfoliobackend.model.Program;
 import ch.portfolio.portfoliobackend.repository.ProgramRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +29,8 @@ public class ProgramController {
     }
 
     @DeleteMapping("/delete_program")
-    public String deleteProgram(@RequestBody Program program) {
+    public void deleteProgram(@RequestBody String title) {
         // Delete a program object from the database
-        if (programRepository.findById(program.getId()).isPresent()) {
-            programRepository.deleteById(program.getId());
-            return "Program deleted";
-        } else {
-            return "Program not found";
-        }
+        programRepository.deleteByTitle(title);
     }
 }

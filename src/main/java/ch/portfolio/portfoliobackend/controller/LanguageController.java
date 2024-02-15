@@ -28,10 +28,8 @@ public class LanguageController {
     }
 
     @DeleteMapping("/delete_language")
-    public Language deleteLanguage(@RequestBody String title) {
+    public void deleteLanguage(@RequestBody String title) {
         // Delete a language object from the database by title
         languageRepository.deleteByTitle(title);
-        System.out.println(languageRepository.findByTitle(title));
-        return languageRepository.findByTitle(title);
     }
 }

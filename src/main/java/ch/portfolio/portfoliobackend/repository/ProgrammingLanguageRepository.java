@@ -4,7 +4,9 @@ import ch.portfolio.portfoliobackend.model.Language;
 import ch.portfolio.portfoliobackend.model.ProgrammingLanguage;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ProgrammingLanguageRepository extends MongoRepository<ProgrammingLanguage, String> {
     @Query("{ 'title' : ?0 }")
     Language findByTitle(String title);
@@ -13,4 +15,7 @@ public interface ProgrammingLanguageRepository extends MongoRepository<Programmi
     Language findByRating(int rating);
 
     public long count();
+
+    @Query(value="{ 'title' : ?0 }", delete = true)
+    public void deleteByTitle(String title);
 }

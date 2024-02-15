@@ -34,38 +34,37 @@ public class AuthController {
     private JWTGenerator jwtGenerator;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
-        this.authenticationManager = authenticationManager;
+    public AuthController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
+        //this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
-            return ResponseEntity.badRequest().body("Username already exists");
-        }
-
-        UserModel user = new UserModel(registerDto.getUsername(), passwordEncoder.encode(registerDto.getPassword()));
-        Role roles = roleRepository.findByRole("ADMIN");
-
-        user.setRole(List.of(roles));
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok("User registered successfully");
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) throws Exception {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
-        System.out.println(authentication);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return ResponseEntity.ok(new AuthResponseDto(token));
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+//        if (userRepository.existsByUsername(registerDto.getUsername())) {
+//            return ResponseEntity.badRequest().body("Username already exists");
+//        }
+//
+//        UserModel user = new UserModel(registerDto.getUsername(), passwordEncoder.encode(registerDto.getPassword()));
+//        Role roles = roleRepository.findByRole("ADMIN");
+//
+//        user.setRole(List.of(roles));
+//
+//        userRepository.save(user);
+//
+//        return ResponseEntity.ok("User registered successfully");
+//    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) throws Exception {
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        String token = jwtGenerator.generateToken(authentication);
+//        return ResponseEntity.ok(new AuthResponseDto(token));
+//    }
 
     @GetMapping("/users")
     public List<UserModel> getUsers(){

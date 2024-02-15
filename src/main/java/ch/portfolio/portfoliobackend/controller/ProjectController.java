@@ -27,13 +27,8 @@ public class ProjectController {
     }
 
     @DeleteMapping("/delete_project")
-    public String deleteProject(@RequestBody Project project) {
+    public void deleteProject(@RequestBody String title) {
         // Delete a project object from the database
-        if (projectRepository.findById(project.getId()).isPresent()) {
-            projectRepository.deleteById(project.getId());
-            return "Project deleted";
-        } else {
-            return "Project not found";
-        }
+        projectRepository.deleteByTitle(title);
     }
 }

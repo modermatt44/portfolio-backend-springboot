@@ -3,45 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
 </head>
 
 <script>
+
+    function getCsrf(){
+        fetch('/get_token', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+            document.getElementsByName("csrf")[0].value = data.token;
+            })
+            .catch((error) => {
+                alert("Error: " + error);
+            });
+    }
+
     function addLanguage() {
         let title = document.getElementsByName("title")[0].value;
         let rating = document.getElementsByName("rating")[0].value;
         let csrf = document.getElementsByName("csrf")[0].value;
 
         // Send a POST request to the server using XMLHttpRequest
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/post_language", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Authorization', 'Basic ' + btoa('marco:password'));
-        xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
-        xhr.send(JSON.stringify({
-            "title": title,
-            "rating": rating
-        }));
+        if (title === "" || rating === "") {
+            alert("Please fill in all fields");
+        } else if (isNaN(rating)) {
+            alert("Rating must be a number");
+        } else if (rating < 1 || rating > 5) {
+            alert("Rating must be between 1 and 5");
+        } else {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/post_language", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+            xhr.send(JSON.stringify({
+                "title": title,
+                "rating": rating
+            }));
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    alert("Language added successfully!");
-                    document.getElementsByName("title")[0].value = "";
-                    document.getElementsByName("rating")[0].value = "";
-                    location.reload();
-                } else {
-                    alert("Error: " + xhr.status + " " + xhr.responseText);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert("Language added successfully!");
+                        document.getElementsByName("title")[0].value = "";
+                        document.getElementsByName("rating")[0].value = "";
+                        location.reload();
+                    } else {
+                        alert("Error: " + xhr.status + " " + xhr.responseText);
+                    }
                 }
             }
         }
-
     }
 
     function deleteLanguage() {
         let title = document.getElementsByName("deleteLanguageTitle")[0].value;
         let csrf = document.getElementsByName("csrf")[0].value;
-
-
 
         // Send a DELETE request to the server using XMLHttpRequest with the language as a body
         var xhr = new XMLHttpRequest();
@@ -49,9 +72,7 @@
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('Authorization', 'Basic ' + btoa('marco:password'));
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
-        xhr.send(JSON.stringify({
-            "title": title
-        }));
+        xhr.send(title);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
@@ -65,76 +86,289 @@
             }
         }
     }
+
+    function addProgLang() {
+        let title = document.getElementsByName("progLangTitle")[0].value;
+        let rating = document.getElementsByName("progLangRating")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        if (title === "" || rating === "") {
+            alert("Please fill in all fields");
+        } else {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/post_programming_language", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+            xhr.send(JSON.stringify({
+                "title": title,
+                "rating": rating
+            }));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert("Programming Language added successfully!");
+                        document.getElementsByName("progLangTitle")[0].value = "";
+                        document.getElementsByName("progLangRating")[0].value = "";
+                        location.reload();
+                    } else {
+                        alert("Error: " + xhr.status + " " + xhr.responseText);
+                    }
+                }
+            }
+        }
+    }
+
+    function deleteProgLang() {
+        let title = document.getElementsByName("deleteProgLangTitle")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", "/delete_programming_language", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+        xhr.send(title);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Programming Language deleted successfully!");
+                    document.getElementsByName("deleteProgLangTitle")[0].value = "";
+                    location.reload();
+                } else {
+                    alert("Error: " + xhr.status);
+                }
+            }
+        }
+    }
+
+    function addProgram() {
+        let title = document.getElementsByName("programTitle")[0].value;
+        let rating = document.getElementsByName("programRating")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        if (title === "" || rating === "") {
+            alert("Please fill in all fields");
+        } else {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/post_program", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+            xhr.send(JSON.stringify({
+                "title": title,
+                "rating": rating
+            }));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert("Program added successfully!");
+                        document.getElementsByName("programTitle")[0].value = "";
+                        document.getElementsByName("programRating")[0].value = "";
+                        location.reload();
+                    } else {
+                        alert("Error: " + xhr.status + " " + xhr.responseText);
+                    }
+                }
+            }
+        }
+    }
+
+    function deleteProgram() {
+        let title = document.getElementsByName("deleteProgramTitle")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", "/delete_program", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+        xhr.send(title);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Program deleted successfully!");
+                    document.getElementsByName("deleteProgramTitle")[0].value = "";
+                    location.reload();
+                } else {
+                    alert("Error: " + xhr.status);
+                }
+            }
+        }
+    }
+
+    function addProject() {
+        let title = document.getElementsByName("projectTitle")[0].value;
+        let description = document.getElementsByName("projectDescription")[0].value;
+        let provider = document.getElementsByName("projectProvider")[0].value;
+        let timeRange = document.getElementsByName("projectTimeRange")[0].value;
+        let rating = document.getElementsByName("projectRating")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        if (title === "" || description === "" || provider === "" || timeRange === "" || rating === "") {
+            alert("Please fill in all fields");
+        } else {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/post_project", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+            xhr.send(JSON.stringify({
+                "title": title
+            }));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert("Project added successfully!");
+                        document.getElementsByName("projectTitle")[0].value = "";
+                        document.getElementsByName("projectDescription")[0].value = "";
+                        document.getElementsByName("projectProvider")[0].value = "";
+                        document.getElementsByName("projectTimeRange")[0].value = "";
+                        document.getElementsByName("projectRating")[0].value = "";
+                        location.reload();
+                    } else {
+                        alert("Error: " + xhr.status + " " + xhr.responseText);
+                    }
+                }
+            }
+        }
+    }
+
+    function deleteProject() {
+        let title = document.getElementsByName("deleteProjectTitle")[0].value;
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", "/delete_project", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
+        xhr.send(title);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Project deleted successfully!");
+                    document.getElementsByName("deleteProjectTitle")[0].value = "";
+                    location.reload();
+                } else {
+                    alert("Error: " + xhr.status);
+                }
+            }
+        }
+    }
+
+    function logout() {
+        let jwtField = document.getElementById("jwtField");
+        let csrf = document.getElementsByName("csrf")[0].value;
+
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': csrf
+            }
+        })
+            .then(response => {
+                // redirect to the home page
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                alert("Error: " + error);
+            });
+    }
+
 </script>
 
 <body>
-    <h1>Hello Admin!</h1>
+    <h1 th:text="${username}"></h1>
+    <button onclick="logout()" class="btn btn-primary logout-button">Logout</button>
 
+    <!-- Get the CSRF Token -->
+    <h2>Get CSRF Token</h2>
     <input type="text" name="csrf" placeholder="CSRF-Token">
+    <button onclick="getCsrf()">Get CSRF</button>
 
-    <h2>Add a new language</h2>
-    <input type="text" name="title" placeholder="Title">
-    <input type="number" name="rating" placeholder="Rating">
-    <button onclick="addLanguage()">Add</button>
+    <!-- Add a new language -->
+    <details>
+        <summary><h2>Add a new language</h2></summary>
+        <input type="text" name="title" placeholder="Title">
+        <input type="number" name="rating" placeholder="Rating">
+        <button onclick="addLanguage()">Add</button>
+    </details>
 
-    <!-- Add a delete form using thymeleaf -->
-    <h2>Delete a language</h2>
+    <!-- Delete a language -->
+    <details>
+        <summary><h2>Delete a language</h2></summary>
+        <input type="text" name="deleteLanguageTitle" placeholder="Title">
+        <button onclick="deleteLanguage()">Delete</button>
+    </details>
 
-<!--    <form action="#" th:action="@{/delete_language_ui}" method="delete">-->
-<!--        <input type="text" th:field="*{language}" placeholder="Title">-->
-<!--        <button type="submit">Delete</button>-->
-<!--    </form>-->
+    <!-- Add a new programming language -->
+    <details>
+        <summary><h2>Add a new programming language</h2></summary>
+        <input type="text" name="progLangTitle" placeholder="Title">
+        <input type="number" name="progLangRating" placeholder="Rating">
+        <button onclick="addProgLang()">Add</button>
+    </details>
 
-    <input type="text" name="deleteLanguageTitle" placeholder="Title">
-    <button onclick="deleteLanguage()">Delete</button>
+    <!-- Delete a programming language -->
+    <details>
+        <summary><h2>Delete a programming language</h2></summary>
+        <input type="text" name="deleteProgLangTitle" placeholder="Title">
+        <button onclick="deleteProgLang()">Delete</button>
+    </details>
 
-<!--    <h2>Language list</h2>-->
-<!--    <ul>-->
-<!--        <li th:each="language : ${languages}">-->
-<!--            <span th:text="${language.title}"></span>-->
-<!--            <span th:text="${language.rating}"></span>-->
-<!--        </li>-->
-<!--    </ul>-->
+    <!-- Add a new program -->
+    <details>
+        <summary><h2>Add a new program</h2></summary>
+        <input type="text" name="programTitle" placeholder="Title">
+        <input type="text" name="programRating" placeholder="Rating">
+        <button onclick="addProgram()">Add</button>
+    </details>
 
+    <!-- Delete a program -->
+    <details>
+        <summary><h2>Delete a program</h2></summary>
+        <input type="text" name="deleteProgramTitle" placeholder="Title">
+        <button onclick="deleteProgram()">Delete</button>
+    </details>
+
+    <!-- Add a new project -->
+    <details>
+        <summary><h2>Add a new project</h2></summary>
+        <input type="text" name="projectTitle" placeholder="Title">
+        <input type="text" name="projectDescription" placeholder="Description">
+        <input type="text" name="projectProvider" placeholder="Provider">
+        <input type="text" name="projectTimeRange" placeholder="Time Range">
+        <input type="text" name="projectRating" placeholder="Rating">
+        <button onclick="addProject()">Add</button>
+    </details>
+
+    <!-- Delete a project -->
+    <details>
+        <summary><h2>Delete a project</h2></summary>
+        <input type="text" name="deleteProjectTitle" placeholder="Title">
+        <button onclick="deleteProject()">Delete</button>
+    </details>
 </body>
 
 <style>
 
-    *{
-        font-family: Arial, sans-serif;
-    }
-
-    input {
-        margin: 5px;
-    }
-    button {
-        margin: 5px;
-    }
-    h2 {
-        margin-top: 20px;
-    }
-    ul {
-        list-style-type: none;
-    }
-    li {
-        margin: 5px;
-    }
-
-    /*Add some colors*/
     body {
-        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px; /* Add padding to the body */
     }
 
-    h1 {
-        color: #4CAF50;
-    }
-
-    h2 {
-        color: #4CAF50;
+    h1, h2 {
+        color: #333;
+        margin-top: 20px; /* Add margin to the top of headers */
     }
 
     button {
-        background-color: #4CAF50;
+        background-color: #007BFF;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -143,48 +377,57 @@
         display: inline-block;
         font-size: 16px;
         border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 20px; /* Add margin to the top of buttons */
     }
 
     button:hover {
-        background-color: #45a049;
+        background-color: #0056b3;
     }
 
-    input[type=text], input[type=number] {
+    input[type=text], input[type=number], input[type=password] {
         width: 100%;
         padding: 12px 20px;
-        margin: 8px 0;
+        margin: 20px 0; /* Add margin to the top and bottom of inputs */
         display: inline-block;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
     }
 
-    input[type=text]:focus, input[type=number]:focus {
-        background-color: #f0f0f0;
+    input[type=text]:focus, input[type=number]:focus, input[type=password]:focus {
+        outline: none;
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0,123,255,.5);
     }
 
     ul {
         padding: 0;
+        list-style: none;
     }
 
     li {
-        background-color: white;
+        background-color: #fff;
         padding: 10px;
         border-radius: 5px;
-    }
-
-    li {
-        background-color: #f2f2f2;
+        margin: 20px 0; /* Add margin to the top and bottom of list items */
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
     }
 
     li:hover {
-        background-color: #ddd;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
     }
 
     span {
         margin: 5px;
     }
 
+    .logout-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
 </style>
 
 </html>

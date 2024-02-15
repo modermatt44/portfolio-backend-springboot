@@ -16,28 +16,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class CustomUserDetailsService implements UserDetailsService {
+//@Service
+public class CustomUserDetailsService{ //implements UserDetailsService {
 
-    private final UserRepository userRepository;
-
-    @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
-    }
-
-    private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole()))
-                .collect(Collectors.toList());
-    }
+    //private final UserRepository userRepository;
+//
+    //@Autowired
+    //public CustomUserDetailsService(UserRepository userRepository) {
+    //    this.userRepository = userRepository;
+    //}
+//
+    //@Override
+    //public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    //    UserModel user = userRepository.findByUsername(username);
+    //    if (user == null) {
+    //        throw new UsernameNotFoundException("User not found");
+    //    }
+    //    return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
+    //}
+//
+    //private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
+    //    return roles.stream()
+    //            .map(role -> new SimpleGrantedAuthority(role.getRole()))
+    //            .collect(Collectors.toList());
+    //}
 }
