@@ -76,9 +76,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/admin").authenticated()
 
                         .requestMatchers(HttpMethod.GET, "/oauth2/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/oidc-principal").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/test").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/logout").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/get_language").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/get_project").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/get_programming_language").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/get_program").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
