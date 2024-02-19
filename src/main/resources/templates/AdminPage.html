@@ -9,6 +9,10 @@
 
 <script>
 
+    window.onload = function() {
+        getCsrf();
+    }
+
     function getCsrf(){
         fetch('/get_token', {
             method: 'GET',
