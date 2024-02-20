@@ -5,14 +5,11 @@
     <title>Admin</title>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
 </head>
 
 <script>
-
-    window.onload = function() {
-        getCsrf();
-    }
-
     function getCsrf(){
         fetch('/get_token', {
             method: 'GET',
@@ -66,8 +63,7 @@
         }
     }
 
-    function deleteLanguage() {
-        let title = document.getElementsByName("deleteLanguageTitle")[0].value;
+    function deleteLanguage(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
         // Send a DELETE request to the server using XMLHttpRequest with the language as a body
@@ -75,13 +71,12 @@
         xhr.open("DELETE", "/delete_language", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
-        xhr.send(title);
+        xhr.send(name);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     alert("Language deleted successfully!");
-                    document.getElementsByName("deleteLanguageTitle")[0].value = "";
                     location.reload();
                 } else {
                     alert("Error: " + xhr.status);
@@ -122,21 +117,19 @@
         }
     }
 
-    function deleteProgLang() {
-        let title = document.getElementsByName("deleteProgLangTitle")[0].value;
+    function deleteProgLang(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
         var xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_programming_language", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
-        xhr.send(title);
+        xhr.send(name);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     alert("Programming Language deleted successfully!");
-                    document.getElementsByName("deleteProgLangTitle")[0].value = "";
                     location.reload();
                 } else {
                     alert("Error: " + xhr.status);
@@ -177,21 +170,19 @@
         }
     }
 
-    function deleteProgram() {
-        let title = document.getElementsByName("deleteProgramTitle")[0].value;
+    function deleteProgram(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
         var xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_program", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
-        xhr.send(title);
+        xhr.send(name);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     alert("Program deleted successfully!");
-                    document.getElementsByName("deleteProgramTitle")[0].value = "";
                     location.reload();
                 } else {
                     alert("Error: " + xhr.status);
@@ -237,21 +228,19 @@
         }
     }
 
-    function deleteProject() {
-        let title = document.getElementsByName("deleteProjectTitle")[0].value;
+    function deleteProject(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
         var xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_project", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
-        xhr.send(title);
+        xhr.send(name);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     alert("Project deleted successfully!");
-                    document.getElementsByName("deleteProjectTitle")[0].value = "";
                     location.reload();
                 } else {
                     alert("Error: " + xhr.status);
@@ -280,6 +269,103 @@
             });
     }
 
+    window.onload = function() {
+        getCsrf();
+        fetch('http://localhost:3000/get_language')
+            .then(response => response.json())
+            .then(data => {
+                let languageContainer = document.getElementById('languageContainer');
+                data.forEach(language => {
+                    let languageDiv = document.createElement('div');
+                    languageDiv.textContent = language.title + ' (Rating: ' + language.rating + ')'; // Include the rating property
+                    languageDiv.className = 'language-item';
+
+                    let deleteIcon = document.createElement('i');
+                    deleteIcon.className = 'bi bi-trash-fill';
+                    deleteIcon.addEventListener('click', function() {
+                        deleteLanguage(language.title); // Pass the 'name' property to the deleteLanguage function
+                    });
+
+                    languageDiv.appendChild(deleteIcon);
+                    languageContainer.appendChild(languageDiv);
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        // Fetch and display ProgLanguages
+        fetch('http://localhost:3000/get_programming_language')
+            .then(response => response.json())
+            .then(data => {
+                let progLanguageContainer = document.getElementById('progLanguageContainer');
+                data.forEach(progLanguage => {
+                    let progLanguageDiv = document.createElement('div');
+                    progLanguageDiv.textContent = progLanguage.title + ' (Rating: ' + progLanguage.rating + ')';
+                    progLanguageDiv.className = 'progLanguage-item';
+
+                    let deleteIcon = document.createElement('i');
+                    deleteIcon.className = 'bi bi-trash-fill';
+                    deleteIcon.addEventListener('click', function() {
+                        deleteProgLang(progLanguage.title);
+                    });
+
+                    progLanguageDiv.appendChild(deleteIcon);
+                    progLanguageContainer.appendChild(progLanguageDiv);
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+        // Fetch and display Projects
+        fetch('http://localhost:3000/get_project')
+            .then(response => response.json())
+            .then(data => {
+                let projectContainer = document.getElementById('projectContainer');
+                data.forEach(project => {
+                    let projectDiv = document.createElement('div');
+                    projectDiv.textContent = project.title + ' (Rating: ' + project.rating + ')';
+                    projectDiv.className = 'project-item';
+
+                    let deleteIcon = document.createElement('i');
+                    deleteIcon.className = 'bi bi-trash-fill';
+                    deleteIcon.addEventListener('click', function() {
+                        deleteProject(project.title);
+                    });
+
+                    projectDiv.appendChild(deleteIcon);
+                    projectContainer.appendChild(projectDiv);
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+        // Fetch and display Programs
+        fetch('http://localhost:3000/get_program')
+            .then(response => response.json())
+            .then(data => {
+                let programContainer = document.getElementById('programContainer');
+                data.forEach(program => {
+                    let programDiv = document.createElement('div');
+                    programDiv.textContent = program.title + ' (Rating: ' + program.rating + ')';
+                    programDiv.className = 'program-item';
+
+                    let deleteIcon = document.createElement('i');
+                    deleteIcon.className = 'bi bi-trash-fill';
+                    deleteIcon.addEventListener('click', function() {
+                        deleteProgram(program.title);
+                    });
+
+                    programDiv.appendChild(deleteIcon);
+                    programContainer.appendChild(programDiv);
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
 </script>
 
 <body>
@@ -287,71 +373,42 @@
     <button onclick="logout()" class="btn btn-primary logout-button">Logout</button>
 
     <!-- Get the CSRF Token -->
-    <h2>Get CSRF Token</h2>
-    <input type="text" name="csrf" placeholder="CSRF-Token">
-    <button onclick="getCsrf()">Get CSRF</button>
+    <input hidden="hidden" type="text" name="csrf" placeholder="CSRF-Token">
 
-    <!-- Add a new language -->
     <details>
-        <summary><h2>Add a new language</h2></summary>
-        <input type="text" name="title" placeholder="Title">
-        <input type="number" name="rating" placeholder="Rating">
-        <button onclick="addLanguage()">Add</button>
+        <summary><h2>Languages</h2></summary>
+        <div id="languageContainer">
+            <input type="text" name="title" placeholder="Title">
+            <input type="number" name="rating" placeholder="Rating">
+            <button onclick="addLanguage()">Add</button>
+        </div>
     </details>
-
-    <!-- Delete a language -->
     <details>
-        <summary><h2>Delete a language</h2></summary>
-        <input type="text" name="deleteLanguageTitle" placeholder="Title">
-        <button onclick="deleteLanguage()">Delete</button>
+        <summary><h2>Programming Languages</h2></summary>
+        <div id="progLanguageContainer">
+            <input type="text" name="progLangTitle" placeholder="Title">
+            <input type="number" name="progLangRating" placeholder="Rating">
+            <button onclick="addProgLang()">Add</button>
+        </div>
     </details>
-
-    <!-- Add a new programming language -->
     <details>
-        <summary><h2>Add a new programming language</h2></summary>
-        <input type="text" name="progLangTitle" placeholder="Title">
-        <input type="number" name="progLangRating" placeholder="Rating">
-        <button onclick="addProgLang()">Add</button>
+        <summary><h2>Programs</h2></summary>
+        <div id="programContainer">
+            <input type="text" name="programTitle" placeholder="Title">
+            <input type="text" name="programRating" placeholder="Rating">
+            <button onclick="addProgram()">Add</button>
+        </div>
     </details>
-
-    <!-- Delete a programming language -->
     <details>
-        <summary><h2>Delete a programming language</h2></summary>
-        <input type="text" name="deleteProgLangTitle" placeholder="Title">
-        <button onclick="deleteProgLang()">Delete</button>
-    </details>
-
-    <!-- Add a new program -->
-    <details>
-        <summary><h2>Add a new program</h2></summary>
-        <input type="text" name="programTitle" placeholder="Title">
-        <input type="text" name="programRating" placeholder="Rating">
-        <button onclick="addProgram()">Add</button>
-    </details>
-
-    <!-- Delete a program -->
-    <details>
-        <summary><h2>Delete a program</h2></summary>
-        <input type="text" name="deleteProgramTitle" placeholder="Title">
-        <button onclick="deleteProgram()">Delete</button>
-    </details>
-
-    <!-- Add a new project -->
-    <details>
-        <summary><h2>Add a new project</h2></summary>
-        <input type="text" name="projectTitle" placeholder="Title">
-        <input type="text" name="projectDescription" placeholder="Description">
-        <input type="text" name="projectProvider" placeholder="Provider">
-        <input type="text" name="projectTimeRange" placeholder="Time Range">
-        <input type="text" name="projectRating" placeholder="Rating">
-        <button onclick="addProject()">Add</button>
-    </details>
-
-    <!-- Delete a project -->
-    <details>
-        <summary><h2>Delete a project</h2></summary>
-        <input type="text" name="deleteProjectTitle" placeholder="Title">
-        <button onclick="deleteProject()">Delete</button>
+        <summary><h2>Projects</h2></summary>
+        <div id="projectContainer">
+            <input type="text" name="projectTitle" placeholder="Title">
+            <input type="text" name="projectDescription" placeholder="Description">
+            <input type="text" name="projectProvider" placeholder="Provider">
+            <input type="text" name="projectTimeRange" placeholder="Time Range">
+            <input type="text" name="projectRating" placeholder="Rating">
+            <button onclick="addProject()">Add</button>
+        </div>
     </details>
 </body>
 
@@ -430,6 +487,53 @@
         position: absolute;
         top: 20px;
         right: 20px;
+    }
+
+
+
+    .language-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 20px;
+    }
+
+    .progLanguage-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 20px;
+    }
+
+    .program-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 20px;
+    }
+
+    .project-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 20px;
+    }
+
+    .bi-trash-fill {
+        cursor: pointer;
+        color: red;
     }
 </style>
 

@@ -83,6 +83,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/get_project").permitAll()
                         .requestMatchers(HttpMethod.GET, "/get_programming_language").permitAll()
                         .requestMatchers(HttpMethod.GET, "/get_program").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
