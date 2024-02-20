@@ -271,7 +271,7 @@
 
     window.onload = function() {
         getCsrf();
-        fetch('http://localhost:3000/get_language')
+        fetch('https://portfolio-backend.odermattmarco.ch/get_language')
             .then(response => response.json())
             .then(data => {
                 let languageContainer = document.getElementById('languageContainer');
@@ -294,7 +294,7 @@
                 console.error('Error:', error);
             });
         // Fetch and display ProgLanguages
-        fetch('http://localhost:3000/get_programming_language')
+        fetch('https://portfolio-backend.odermattmarco.ch/get_programming_language')
             .then(response => response.json())
             .then(data => {
                 let progLanguageContainer = document.getElementById('progLanguageContainer');
@@ -318,7 +318,7 @@
             });
 
         // Fetch and display Projects
-        fetch('http://localhost:3000/get_project')
+        fetch('https://portfolio-backend.odermattmarco.ch/get_project')
             .then(response => response.json())
             .then(data => {
                 let projectContainer = document.getElementById('projectContainer');
@@ -342,7 +342,7 @@
             });
 
         // Fetch and display Programs
-        fetch('http://localhost:3000/get_program')
+        fetch('https://portfolio-backend.odermattmarco.ch/get_program')
             .then(response => response.json())
             .then(data => {
                 let programContainer = document.getElementById('programContainer');
