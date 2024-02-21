@@ -498,7 +498,8 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .progLanguage-item {
@@ -508,7 +509,8 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .program-item {
@@ -518,7 +520,8 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .project-item {
@@ -528,12 +531,51 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .bi-trash-fill {
         cursor: pointer;
         color: red;
+    }
+
+    details {
+        background-color: #f9f9f9;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: .5em .5em 0;
+        margin: 1em 0;
+        width: 50%;
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
+    }
+
+    details *{
+        max-width: 100%;
+    }
+
+    summary {
+        font-weight: bold;
+        margin: -.5em -.5em 0;
+        padding:  0 .5em 0 .5em;
+        cursor: pointer;
+    }
+
+    details[open] {
+        padding: 50px;
+    }
+
+    details[open] summary {
+        border-bottom: 1px solid #aaa;
+        margin-bottom: .5em;
+    }
+
+    details > summary {
+        list-style-type: none;
+    }
+
+    details > summary::-moz-list-bullet {
+        display: none;
     }
 </style>
 
