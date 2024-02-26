@@ -67,7 +67,7 @@
         let csrf = document.getElementsByName("csrf")[0].value;
 
         // Send a DELETE request to the server using XMLHttpRequest with the language as a body
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_language", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
@@ -120,7 +120,7 @@
     function deleteProgLang(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_programming_language", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
@@ -173,7 +173,7 @@
     function deleteProgram(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_program", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
@@ -231,7 +231,7 @@
     function deleteProject(name) {
         let csrf = document.getElementsByName("csrf")[0].value;
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("DELETE", "/delete_project", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('X-XSRF-TOKEN', csrf)
@@ -250,23 +250,7 @@
     }
 
     function logout() {
-        let jwtField = document.getElementById("jwtField");
-        let csrf = document.getElementsByName("csrf")[0].value;
-
-        fetch('/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': csrf
-            }
-        })
-            .then(response => {
-                // redirect to the home page
-                window.location.href = "/";
-            })
-            .catch((error) => {
-                alert("Error: " + error);
-            });
+        window.location.href = "/logout";
     }
 
     window.onload = function() {
